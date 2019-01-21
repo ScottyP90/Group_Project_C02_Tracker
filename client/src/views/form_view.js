@@ -5,7 +5,6 @@ const FormView = function (container) {
 }
 
 FormView.prototype.setupEventListeners = function() {
-  // FormView.prototype.rendForm()
   this.container.addEventListener('submit', function (event) {
     event.preventDefault()
 
@@ -17,11 +16,12 @@ FormView.prototype.setupEventListeners = function() {
      train: event.target.train.value,
      plane: event.target.plane.value,
      plasticWaste: event.target.plasticWaste.value,
-     // // foodType: event.target.foodtype.value,
+     foodType: event.target.foodtype.value,
      energy: event.target.energy.value
   }
 
     PubSub.publish('FormView:formSubmit', newItems)
+    console.log(newItems);
 
   event.target.reset()
     console.log('submitted', newItems);
@@ -55,7 +55,7 @@ formContainer.appendChild(question2)
 const answer2 = this.createInput('number', 'bus')
 formContainer.appendChild(answer2)
 
-const question3 = this.createQuestion('How many mailes do you travel by train each week?')
+const question3 = this.createQuestion('How many miles do you travel by train each week?')
 formContainer.appendChild(question3)
 
 const answer3 = this.createInput('number', 'train')
@@ -86,20 +86,20 @@ formContainer.appendChild(answer6)
 const question7 = this.createQuestion('What is your diet type?')
 formContainer.appendChild(question7)
 
-// const answer7 = this.createSelect('foodtype')
-// formContainer.appendChild(answer7)
-//
-//   const option1 = this.createOption('Vegan', 'food')
-//   answer7.appendChild(option1)
-//
-//   const option2 = this.createOption('Vegetarian', 'food')
-//   answer7.appendChild(option2)
-//
-//   const option3 = this.createOption('Omnivore', 'food')
-//   answer7.appendChild(option3)
-//
-//   const option4 = this.createOption('Carnivore', 'food')
-//   answer7.appendChild(option4)
+const answer7 = this.createSelect('foodtype')
+formContainer.appendChild(answer7)
+
+  const option1 = this.createOption('vegan', 'food')
+  answer7.appendChild(option1)
+
+  const option2 = this.createOption('vegetarian', 'food')
+  answer7.appendChild(option2)
+
+  const option3 = this.createOption('omnivore', 'food')
+  answer7.appendChild(option3)
+
+  const option4 = this.createOption('heavy meat eater', 'food')
+  answer7.appendChild(option4)
 
 
 
@@ -150,6 +150,7 @@ FormView.prototype.createOption = function (textValue, idName){
 FormView.prototype.createSelect = function (nameid) {
   const select = document.createElement('select')
   select.id = nameid
+  return select
 };
 
 FormView.prototype.createSubmitButton = function(inputType, idName, name) {

@@ -1,6 +1,7 @@
 const RequestHelper = require('../helpers/request_helper.js')
 const Calculate = require('./calculate.js')
 const PubSub = require('../helpers/pub_sub.js');
+const Calculate = require('./calculate.js')
 
 const Results = function(){
   this.items = [];
@@ -9,12 +10,16 @@ const Results = function(){
 
 }
 
+
 const calculate = new Calculate()
 
 Results.prototype.setupEventsListener = function(){
+
   PubSub.subscribe('FormView:formSubmit', (event) => {
-  const itemToAdd = event.detail;
-  this.add(itemToAdd);
+    console.log('Input', event.detail);
+  result = this.calculate(event.detail);
+  this.add(result)
+  console.log('result', result)
   })
   PubSub.subscribe('GridView:result-delete-clicked', (event) => {
     const itemToDelete = event.detail;
@@ -53,6 +58,12 @@ Results.prototype.delete = function(itemToDelete){
     PubSub.publish('Results:deleted-item', this.items)
   })
       .catch((err) => console.error(err));
+}
+
+Results.prototype.calculate = function(formObject){
+ calculator = new Calculate()
+ result = calculator.createResult(formObject)
+ return result
 }
 
 module.exports = Results;
